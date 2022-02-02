@@ -1,7 +1,7 @@
 
 TARGET="${REGISTRY}/${REPO}:${VERSION}"
 
-all: 
+all: build-app push-app
 
 build-app: build-app
 	docker build -f builds/Dockerfile.build.app -t ${TARGET} -t latest .
