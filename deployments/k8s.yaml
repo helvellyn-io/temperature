@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    dev-public-endpoint.details.html.spinnaker.io: "http://a704cc41c19ea40e894a67165c54f987-1236552832.us-east-2.elb.amazonaws.com/hello"
+    stage-public-endpint.details.html.spinnaker.io: "http://a1fe7982661c74e7aa833199b95a9c90-889479913.us-east-2.elb.amazonaws.com/hello"
+    prod-public-endpoint.details.html.spinnaker.io: "http://a1fe7982661c74e7aa833199b95a9c90-889479913.us-east-2.elb.amazonaws.com/hello"
+    datadog-dashboard.details.html.spinnaker.io: "https://p.datadoghq.com/sb/nvlzaqyi3d91cdpr-a81b1d0752f253b803eba39ff0112cde"
+  name: ${ parameters.app }
+  labels:
+    app: ${ parameters.app } 
+    env: ${ parameters.env }
+    tags.datadoghq.com/env: "dev"
+    tags.datadoghq.com/service: "temperature"
+    tags.datadoghq.com/version: "v1"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ${ parameters.app }
+  template:
+    metadata:
+      labels:
+        app: ${ parameters.app }
+        tags.datadoghq.com/env: "dev"
+        tags.datadoghq.com/service: "temperature"
+        tags.datadoghq.com/version: "v8"
+    spec:
+      containers:
+      - name: ${ parameters.app }
+        image: index.docker.io/helvellyn/demo 
+        command: ["./demo"]
+        args: ["--mode", "${ parameters.mode }"]
+        env:
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/service']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
+            - name: SECRET_VALUE
+              value: "Direct Injected From Vault"
+        imagePullPolicy: Always 
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${ parameters.app }
+spec:
+  selector:
+    app: ${ parameters.app }
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer

@@ -1,0 +1,10 @@
+{
+    "tests": {
+        "env": {
+            "dev": {
+                "endpointInfo": "public endpoint /helloworld",
+                "endpointURL": "http://a704cc41c19ea40e894a67165c54f987-1236552832.us-east-2.elb.amazonaws.com/hello"
+            }
+        }
+    }
+}
