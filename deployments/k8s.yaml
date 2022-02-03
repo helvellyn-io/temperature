@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: ${ parameters.app }
-        image: index.docker.io/helvellyn/demo 
+        image: index.docker.io/helvellyn/temperature 
         command: ["./demo"]
         args: ["--mode", "${ parameters.mode }"]
         env:
