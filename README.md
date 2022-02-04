@@ -1,4 +1,5 @@
-# Demo App
+# Temperature App
+    - GET / returns current temperature in Boulder Colorado.
 
 # Configure
     - set environment variables
