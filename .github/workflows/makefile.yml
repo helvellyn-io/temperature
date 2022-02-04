@@ -27,5 +27,9 @@ jobs:
         with:
           push: true
           tags: helvellyn/temperature:v22
+      -
+        name: Scan
+        run: |
+          docker scan
       
  
