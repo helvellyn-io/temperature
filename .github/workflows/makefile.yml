@@ -25,6 +25,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
+          context: "{{defaultContext}}:builds"
           push: true
           tags: helvellyn/temperature:v22
       
