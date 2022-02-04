@@ -14,7 +14,7 @@ metadata:
     tags.datadoghq.com/service: "temperature"
     tags.datadoghq.com/version: "v1"
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: ${ parameters.app }
