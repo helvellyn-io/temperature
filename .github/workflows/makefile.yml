@@ -17,6 +17,10 @@ jobs:
     - name: set environment
       run:  source env.source
       
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v2.9.0
+
+      
     - name: Install dependencies
       run: make all
       
