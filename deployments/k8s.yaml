@@ -9,7 +9,7 @@ metadata:
   name: ${ parameters.app }
   labels:
     app: ${ parameters.app } 
-    env: ${ parameters.env }
+    #env: ${ parameters.env }
     tags.datadoghq.com/env: "dev"
     tags.datadoghq.com/service: "temperature"
     tags.datadoghq.com/version: "v1"
@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: ${ parameters.app }
-        image: index.docker.io/helvellyn/demo 
+        image: index.docker.io/helvellyn/temperature 
         command: ["./demo"]
         args: ["--mode", "${ parameters.mode }"]
         env:
